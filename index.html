@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Your Rhythm Today • 100 Power Daily App</title>
+  <meta name="description" content="Choose where you are in your cycle — so we can meet you there with movement that supports your energy, rest, and wellness.">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #815739;
+      --primary-dark: #6B4429;
+      --secondary: #F5EDE4;
+      --black: #1A1A1A;
+      --gray: #6B6B6B;
+      --light-gray: #F7F5F2;
+      --white: #FFFFFF;
+      --border: #E5DDD5;
+      --shadow: rgba(0, 0, 0, 0.06);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #bca68e;
+      color: var(--black);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+    }
+
+    .tagline {
+      font-size: 0.875rem;
+      color: var(--gray);
+      letter-spacing: 0.05em;
+    }
+
+    /* Card */
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px var(--shadow);
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .intro-text {
+      font-size: 1rem;
+      color: var(--gray);
+      text-align: center;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    /* Path Selection */
+    .path-options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .path-btn {
+      background: var(--white);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: left;
+    }
+
+    .path-btn:hover {
+      border-color: var(--primary);
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    .path-title {
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.25rem;
+    }
+
+    .path-desc {
+      font-size: 0.875rem;
+      color: var(--gray);
+    }
+
+    /* Forms */
+    .form-section {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+
+    .form-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      background: var(--white);
+      transition: all 0.2s ease;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: var(--light-gray);
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: var(--gray);
+      margin-top: 0.25rem;
+      font-style: italic;
+    }
+
+    .guidance-tip {
+      background: var(--secondary);
+      border-left: 3px solid var(--primary);
+      padding: 1rem;
+      border-radius: 6px;
+      margin: 1.5rem 0;
+      font-size: 0.875rem;
+      color: var(--black);
+    }
+
+    /* Choice Pills */
+    .choice-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .choice-pill {
+      padding: 0.75rem;
+      border: 2px solid var(--border);
+      border-radius: 24px;
+      background: var(--white);
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+    }
+
+    .choice-pill:hover {
+      border-color: var(--primary);
+      background: var(--secondary);
+    }
+
+    .choice-pill.selected {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+    }
+
+    .choice-label {
+      font-size: 0.75rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.875rem 2rem;
+      border: none;
+      border-radius: 24px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--gray);
+      border: 2px solid var(--border);
+      margin-left: 1rem;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gray);
+      background: var(--light-gray);
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    /* Results */
+    .results-section {
+      display: none;
+      animation: slideUp 0.5s ease;
+    }
+
+    .results-section.active {
+      display: block;
+    }
+
+    .phase-badge {
+      display: inline-block;
+      background: var(--primary);
+      color: var(--white);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .phase-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.5rem;
+    }
+
+    .phase-subtitle {
+      font-size: 1rem;
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .info-item {
+      background: var(--light-gray);
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .info-label {
+      font-size: 0.75rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .info-value {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .classes-section {
+      background: var(--secondary);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-top: 2rem;
+    }
+
+    .classes-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+
+    .class-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .class-tag {
+      background: var(--white);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      color: var(--black);
+      border: 1px solid var(--primary);
+    }
+
+    .focus-text {
+      font-style: italic;
+      color: var(--gray);
+      margin-top: 1rem;
+      line-height: 1.5;
+    }
+
+    .cta-section {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .cta-text {
+      font-size: 0.875rem;
+      color: var(--gray);
+      margin-bottom: 1rem;
+    }
+
+    .disclaimer {
+      font-size: 0.75rem;
+      color: var(--gray);
+      font-style: italic;
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      margin-top: 3rem;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.75rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .copyright {
+      font-size: 0.75rem;
+      color: var(--gray);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 1.5rem 1rem; }
+      .card { padding: 1.5rem; }
+      h1 { font-size: 1.5rem; }
+      .button-group { flex-direction: column; gap: 0.75rem; }
+      .btn-secondary { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+<header class="header">
+  <img src="https://100powerdaily.site/IMG_4486.PNG" alt="100 Power Daily" style="width: 120px; height: 60px; object-fit: contain; margin-bottom: 0.5rem;">
+
+  <div class="tagline">Cycle-Synced Pilates • Find Your Rhythm</div>
+</header>
+
+    <div class="card">
+      <div id="pathSelection">
+        <h1>Find Your Rhythm Today</h1>
+        <p class="intro-text">Choose where you are in your cycle — so we can meet you there with movement that supports your energy, rest, and wellness.</p>
+        
+        <div class="path-options">
+          <button class="path-btn" onclick="showRegularForm()">
+            <div class="path-title">Regular Cycle</div>
+            <div class="path-desc">I have a consistent monthly rhythm (approx. 25–35 days)</div>
+          </button>
+          
+          <button class="path-btn" onclick="showIrregularForm()">
+            <div class="path-title">Irregular Cycle / Hormonal Contraception</div>
+            <div class="path-desc">Cycles longer than ~35 days, or hormones are in the mix</div>
+          </button>
+          
+          <button class="path-btn" onclick="showIrregularForm()">
+            <div class="path-title">Perimenopause / Menopause</div>
+            <div class="path-desc">My cycle is changing or I'm in menopause</div>
+          </button>
+
+          <button class="path-btn" onclick="showPrenatalForm()">
+            <div class="path-title">Pre Natal</div>
+            <div class="path-desc">I'm pregnant and want safe, supportive movement</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Regular Cycle Form -->
+      <div id="regularForm" class="form-section">
+        <div class="form-title">Track Your Cycle</div>
+        
+        <div class="form-group">
+          <label for="lastPeriod">First Day of Last Bleed</label>
+          <input type="date" id="lastPeriod" required>
+          <div class="hint">Enter the first day of your most recent menstrual period</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="cycleLength">Average Cycle Length</label>
+          <input type="number" id="cycleLength" min="25" max="35" value="28" required>
+          <div class="hint">Typical length from Day 1 to the next Day 1 (25–35 days)</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="periodLength">Average Period Length</label>
+          <input type="number" id="periodLength" min="4" max="7" value="5" required>
+          <div class="hint">How many days does your flow usually last (4–7 days)</div>
+        </div>
+
+        <div class="form-group">
+          <label>How's your energy today?</label>
+          <div class="choice-group">
+            <div class="choice-pill" data-energy="low" onclick="selectEnergy(this, 'regular')">Low</div>
+            <div class="choice-pill" data-energy="moderate" onclick="selectEnergy(this, 'regular')">Moderate</div>
+            <div class="choice-pill" data-energy="high" onclick="selectEnergy(this, 'regular')">High</div>
+          </div>
+        </div>
+        
+        <div class="guidance-tip">
+          Most cycles fall between 25–35 days; your period typically lasts 4–7 days.
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary" onclick="calculateRegular()">See My Pilates Focus</button>
+          <button class="btn btn-secondary" onclick="goBack()">Back</button>
+        </div>
+      </div>
+
+      <!-- Irregular/Menopause Form -->
+      <div id="irregularForm" class="form-section">
+        <div class="form-title">Listen to your body, choose your own rhythm below</div>
+        
+        <div class="form-group">
+          <div class="choice-label">Energy</div>
+          <div class="choice-group">
+            <div class="choice-pill" data-energy="low" onclick="selectEnergy(this, 'irregular')">Low</div>
+            <div class="choice-pill" data-energy="moderate" onclick="selectEnergy(this, 'irregular')">Moderate</div>
+            <div class="choice-pill" data-energy="high" onclick="selectEnergy(this, 'irregular')">High</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="choice-label">Mood</div>
+          <div class="choice-group">
+            <div class="choice-pill" data-mood="foggy" onclick="selectMood(this)">Foggy</div>
+            <div class="choice-pill" data-mood="happy" onclick="selectMood(this)">Happy</div>
+            <div class="choice-pill" data-mood="energetic" onclick="selectMood(this)">Energetic</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="choice-label">Moon Sync</div>
+          <div class="choice-group">
+            <div class="choice-pill" data-moon="yes" onclick="selectMoon(this)">Yes</div>
+            <div class="choice-pill" data-moon="no" onclick="selectMoon(this)">No</div>
+          </div>
+          <div class="hint">When yes, we'll use the current moon phase as a guide</div>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary" onclick="calculateIrregular()">See My Pilates Focus</button>
+          <button class="btn btn-secondary" onclick="goBack()">Back</button>
+        </div>
+      </div>
+
+      <!-- Pre Natal Form -->
+      <div id="prenatalForm" class="form-section">
+        <div class="form-title">Pre Natal Support</div>
+        <p class="intro-text">Safe, nurturing movement for you and baby</p>
+        
+        <div class="form-group">
+          <div class="choice-label">Energy Today</div>
+          <div class="choice-group">
+            <div class="choice-pill" data-energy="low" onclick="selectEnergy(this, 'prenatal')">Low</div>
+            <div class="choice-pill" data-energy="moderate" onclick="selectEnergy(this, 'prenatal')">Moderate</div>
+            <div class="choice-pill" data-energy="high" onclick="selectEnergy(this, 'prenatal')">High</div>
+          </div>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary" onclick="showPrenatalResults()">See My Pilates Focus</button>
+          <button class="btn btn-secondary" onclick="goBack()">Back</button>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <div id="resultsSection" class="results-section">
+        <div id="resultsContent"></div>
+        
+        <div class="cta-section">
+          <p class="cta-text">Want a full mat class that aligns with your phase and energy today?</p>
+          <button class="btn btn-primary" onclick="joinApp()">Tap to join the 100 Power Daily App class designed just for you</button>
+        </div>
+        
+        <div class="disclaimer">
+          This app provides educational support only and is not a substitute for medical advice.
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-secondary" onclick="startOver()">Start Again</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-links">
+        <a href="https://100powerpilates.gcph.tv/privacy">Privacy Policy</a>
+        <a href="https://100powerpilates.gcph.tv/terms">Terms of Use</a>
+        <a href="http://100powerdaily.com/">Learn More about cycle-syncing & Pilates</a>
+      </div>
+      <div class="copyright"><a href="http://100powerdaily.com/" style="color: var(--gray); text-decoration: none;">© 100 Power Daily App. All rights reserved.</a></div>
+    </footer>
+  </div>
+
+  <script>
+    // State management
+    let selectedData = {
+      regular: { energy: null },
+      irregular: { energy: null, mood: null, moon: null },
+      prenatal: { energy: null }
+    };
+
+    // Phase configurations from PDF
+    const PHASES = {
+      menstrual: {
+        name: 'Menstrual Phase',
+        subtitle: 'Phase 1 - Inner Winter',
+        description: 'Low energy, restorative classes',
+        baseClasses: ['Stretch Pilates', 'Cycle Phase 1', 'Pilates Essentials (Beginner)'],
+        focus: 'gentle, restorative focus',
+        addOns: {
+          moderate: ['Pre Natal']
+        }
+      },
+      follicular: {
+        name: 'Follicular Phase',
+        subtitle: 'Phase 2 - Inner Spring',
+        description: 'Rising energy, light + creative movement',
+        baseClasses: ['Pilates Essentials', 'Cycle Phase 2', 'Spicy Mat Pilates', 'Barre'],
+        focus: 'light strength, building fresh energy',
+        addOns: {
+          high: ['Cardio Pilates']
+        }
+      },
+      ovulation: {
+        name: 'Ovulation Phase',
+        subtitle: 'Phase 3 - Inner Summer',
+        description: 'Peak energy, strongest classes',
+        baseClasses: ['Spicy Mat Pilates', 'Cardio Pilates', 'Barre', 'Cycle Phase 3'],
+        focus: 'strong, challenging, dynamic',
+        addOns: {
+          high: ['Mix Spicy + Cardio']
+        }
+      },
+      luteal: {
+        name: 'Luteal Phase',
+        subtitle: 'Phase 4 - Inner Autumn',
+        description: 'Slowing down, grounding classes',
+        baseClasses: ['Cycle Phase 4', 'Stretch Pilates', 'Pilates Essentials', 'Barre (low-impact)'],
+        focus: 'steady, grounding, pre-menstrual support',
+        addOns: {
+          moderate: ['Spicy Mat (slower pace)']
+        }
+      }
+    };
+
+    // UI Functions
+    function showRegularForm() {
+      hideAll();
+      document.getElementById('regularForm').classList.add('active');
+    }
+
+    function showIrregularForm() {
+      hideAll();
+      document.getElementById('irregularForm').classList.add('active');
+    }
+
+    function showPrenatalForm() {
+      hideAll();
+      document.getElementById('prenatalForm').classList.add('active');
+    }
+
+    function hideAll() {
+      document.getElementById('pathSelection').style.display = 'none';
+      document.querySelectorAll('.form-section').forEach(el => el.classList.remove('active'));
+      document.getElementById('resultsSection').classList.remove('active');
+    }
+
+    function goBack() {
+      hideAll();
+      document.getElementById('pathSelection').style.display = 'block';
+      resetSelections();
+    }
+
+    function startOver() {
+      goBack();
+    }
+
+    function resetSelections() {
+      document.querySelectorAll('.choice-pill').forEach(el => el.classList.remove('selected'));
+      selectedData = {
+        regular: { energy: null },
+        irregular: { energy: null, mood: null, moon: null },
+        prenatal: { energy: null }
+      };
+    }
+
+    // Selection handlers
+    function selectEnergy(element, type) {
+      document.querySelectorAll(`#${type}Form .choice-pill[data-energy]`).forEach(el => el.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedData[type].energy = element.dataset.energy;
+    }
+
+    function selectMood(element) {
+      document.querySelectorAll('.choice-pill[data-mood]').forEach(el => el.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedData.irregular.mood = element.dataset.mood;
+    }
+
+    function selectMoon(element) {
+      document.querySelectorAll('.choice-pill[data-moon]').forEach(el => el.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedData.irregular.moon = element.dataset.moon;
+    }
+
+    // Calculate Regular Cycle
+    function calculateRegular() {
+      const lastPeriod = document.getElementById('lastPeriod').value;
+      const cycleLength = parseInt(document.getElementById('cycleLength').value);
+      const periodLength = parseInt(document.getElementById('periodLength').value);
+      const energy = selectedData.regular.energy;
+      
+      if (!lastPeriod || !cycleLength || !periodLength) {
+        alert('Please complete all fields');
+        return;
+      }
+      
+      const start = new Date(lastPeriod);
+      const today = new Date();
+      const daysSince = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+      const cycleDay = ((daysSince % cycleLength) + cycleLength) % cycleLength + 1;
+      
+      // Determine phase with scaling for different cycle lengths
+      let phase;
+      const ovulationDay = Math.round(cycleLength / 2);
+      
+      if (cycleDay <= 5) {
+        phase = 'menstrual';
+      } else if (cycleDay < ovulationDay - 1) {
+        phase = 'follicular';
+      } else if (cycleDay <= ovulationDay + 1) {
+        phase = 'ovulation';
+      } else {
+        phase = 'luteal';
+      }
+      
+      showResults(phase, cycleDay, energy);
+    }
+
+    // Calculate Irregular/Menopause
+    function calculateIrregular() {
+      const energy = selectedData.irregular.energy;
+      const mood = selectedData.irregular.mood;
+      const moon = selectedData.irregular.moon;
+      
+      if (moon === 'yes') {
+        const moonPhase = getMoonPhase();
+        showMoonResults(moonPhase, energy || 'moderate');
+      } else if (energy || mood) {
+        showEnergyMoodResults(energy, mood);
+      } else {
+        alert('Please select at least one option');
+      }
+    }
+
+    // Moon phase calculation
+    function getMoonPhase() {
+      const date = new Date();
+      const newMoon = new Date('2025-01-13');
+      const days = Math.floor((date - newMoon) / (1000 * 60 * 60 * 24));
+      const phase = ((days % 29.5) + 29.5) % 29.5;
+      
+      if (phase < 7.4) return { name: 'New Moon', energy: 'low', phase: 'menstrual' };
+      if (phase < 14.8) return { name: 'Waxing Moon', energy: 'moderate', phase: 'follicular' };
+      if (phase < 22.1) return { name: 'Full Moon', energy: 'high', phase: 'ovulation' };
+      return { name: 'Waning Moon', energy: 'moderate', phase: 'luteal' };
+    }
+
+    // Show results for regular cycle
+    function showResults(phase, cycleDay, energy) {
+      const phaseData = PHASES[phase];
+      let classes = [...phaseData.baseClasses];
+      
+      // Add optional classes based on energy
+      if (energy && phaseData.addOns[energy]) {
+        classes.push(...phaseData.addOns[energy]);
+      }
+      
+      const html = `
+        <span class="phase-badge">${phaseData.subtitle}</span>
+        <h2 class="phase-title">${phaseData.name}</h2>
+        <p class="phase-subtitle">${phaseData.description}</p>
+        
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Cycle Day</div>
+            <div class="info-value">${cycleDay}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Energy</div>
+            <div class="info-value">${energy || 'Not set'}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Phase</div>
+            <div class="info-value">${phase}</div>
+          </div>
+        </div>
+        
+        <div class="classes-section">
+          <h3 class="classes-title">Best Categories for You</h3>
+          <div class="class-list">
+            ${classes.map(c => `<span class="class-tag">${c}</span>`).join('')}
+          </div>
+          <p class="focus-text">Focus: ${phaseData.focus}</p>
+        </div>
+      `;
+      
+      document.getElementById('resultsContent').innerHTML = html;
+      hideAll();
+      document.getElementById('resultsSection').classList.add('active');
+    }
+
+    // Show results for moon sync
+    function showMoonResults(moonData, energy) {
+      const phaseData = PHASES[moonData.phase];
+      let classes = [...phaseData.baseClasses];
+      
+      if (energy && phaseData.addOns[energy]) {
+        classes.push(...phaseData.addOns[energy]);
+      }
+      
+      const html = `
+        <span class="phase-badge">Moon Sync - ${moonData.name}</span>
+        <h2 class="phase-title">Following the ${moonData.name}</h2>
+        <p class="phase-subtitle">Aligned with lunar energy</p>
+        
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Moon Phase</div>
+            <div class="info-value">${moonData.name}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Energy</div>
+            <div class="info-value">${energy}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Suggested</div>
+            <div class="info-value">${moonData.phase}</div>
+          </div>
+        </div>
+        
+        <div class="classes-section">
+          <h3 class="classes-title">Best Categories for You</h3>
+          <div class="class-list">
+            ${classes.map(c => `<span class="class-tag">${c}</span>`).join('')}
+          </div>
+          <p class="focus-text">Moon Phase: intuitive flow (stretching or energising strength)</p>
+        </div>
+      `;
+      
+      document.getElementById('resultsContent').innerHTML = html;
+      hideAll();
+      document.getElementById('resultsSection').classList.add('active');
+    }
+
+    // Show results for energy/mood based selection
+    function showEnergyMoodResults(energy, mood) {
+      // Map mood to energy if energy not selected
+      if (!energy) {
+        energy = mood === 'foggy' ? 'low' : mood === 'happy' ? 'moderate' : 'high';
+      }
+      
+      // Map energy to phase
+      let phase = energy === 'low' ? 'menstrual' : 
+                  energy === 'moderate' ? 'luteal' : 'ovulation';
+      
+      const phaseData = PHASES[phase];
+      let classes = [...phaseData.baseClasses];
+      
+      if (phaseData.addOns[energy]) {
+        classes.push(...phaseData.addOns[energy]);
+      }
+      
+      const html = `
+        <span class="phase-badge">Energy-Based Selection</span>
+        <h2 class="phase-title">Your Personal Focus</h2>
+        <p class="phase-subtitle">Based on your current energy and mood</p>
+        
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Energy</div>
+            <div class="info-value">${energy || 'Not set'}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Mood</div>
+            <div class="info-value">${mood || 'Not set'}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Suggested</div>
+            <div class="info-value">${phase}</div>
+          </div>
+        </div>
+        
+        <div class="classes-section">
+          <h3 class="classes-title">Best Categories for You</h3>
+          <div class="class-list">
+            ${classes.map(c => `<span class="class-tag">${c}</span>`).join('')}
+          </div>
+          <p class="focus-text">Focus: ${phaseData.focus}</p>
+        </div>
+      `;
+      
+      document.getElementById('resultsContent').innerHTML = html;
+      hideAll();
+      document.getElementById('resultsSection').classList.add('active');
+    }
+
+    // Show Pre Natal results
+    function showPrenatalResults() {
+      const energy = selectedData.prenatal.energy || 'moderate';
+      
+      const html = `
+        <span class="phase-badge">Pre Natal</span>
+        <h2 class="phase-title">Pre Natal Movement</h2>
+        <p class="phase-subtitle">Safe, nurturing support for you and baby</p>
+        
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Program</div>
+            <div class="info-value">Pre Natal</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Energy</div>
+            <div class="info-value">${energy}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Focus</div>
+            <div class="info-value">Safe</div>
+          </div>
+        </div>
+        
+        <div class="classes-section">
+          <h3 class="classes-title">Best Categories for You</h3>
+          <div class="class-list">
+            <span class="class-tag">Pre Natal Classes</span>
+            ${energy === 'low' ? '<span class="class-tag">Gentle Stretches</span>' : ''}
+            ${energy === 'high' ? '<span class="class-tag">Active Pre Natal</span>' : ''}
+          </div>
+          <p class="focus-text">Always safe, modified movements designed for pregnancy</p>
+        </div>
+      `;
+      
+      document.getElementById('resultsContent').innerHTML = html;
+      hideAll();
+      document.getElementById('resultsSection').classList.add('active');
+    }
+
+    function joinApp() {
+      window.open('https://100powerpilates.gcph.tv/', '_blank');
+    }
+  </script>
+</body>
+</html>
